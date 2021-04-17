@@ -1,0 +1,12 @@
+{
+  "namespace": "fip.common",
+  "name": "UserGetReqDto",
+  "type": "record",
+  "fields": [
+    {
+      "name": "id",
+      "doc": "example: 0",
+      "type": "long"
+    }
+  ]
+}

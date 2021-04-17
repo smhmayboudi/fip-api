@@ -1,0 +1,27 @@
+{
+  "coverageReporters": ["lcov", "text-summary"],
+  "moduleFileExtensions": ["js", "json", "node", "ts"],
+  "moduleNameMapper": {
+    "@fip/apm": "<rootDir>/libs/apm/src",
+    "@fip/apm/(.*)": "<rootDir>/libs/apm/src/$1",
+    "@fip/common": "<rootDir>/libs/common/src",
+    "@fip/common/(.*)": "<rootDir>/libs/common/src/$1",
+    "@fip/dgraph": "<rootDir>/libs/dgraph/src",
+    "@fip/dgraph/(.*)": "<rootDir>/libs/dgraph/src/$1",
+    "@fip/prom": "<rootDir>/libs/prom/src",
+    "@fip/prom/(.*)": "<rootDir>/libs/prom/src/$1",
+    "@fip/sentry": "<rootDir>/libs/sentry/src",
+    "@fip/sentry/(.*)": "<rootDir>/libs/sentry/src/$1"
+  },
+  "modulePathIgnorePatterns": [
+    "/.yarn/",
+    "/bazel-out/",
+    "/node_modules/",
+    "/yarn-packages-offline-cache/"
+  ],
+  "testRegex": "spec.ts$",
+  "testEnvironment": "node",
+  "transform": {
+    "^.+\\.ts$": "ts-jest"
+  }
+}

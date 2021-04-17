@@ -1,0 +1,58 @@
+load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_binary")
+load("@io_bazel_rules_docker//nodejs:image.bzl", "nodejs_image")
+load("@fip//:apps/common/bazel/jest/index.bzl", "jest_test")
+load("@npm//@bazel/typescript:index.bzl", "ts_config", "ts_library")
+
+package(default_visibility = ["//visibility:private"])
+
+ts_config(
+    name = "sentry_ts_config",
+    src = "//libs/sentry:tsconfig.lib.json",
+    deps = [
+        "//:tsconfig.json",
+    ],
+)
+
+ts_library(
+    name = "sentry_ts_library",
+    srcs = glob(
+        include = ["*.ts"],
+        exclude = ["*spec.ts"],
+    ),
+    module_name = "@fip/sentry",
+    runtime = "nodejs",
+    tsconfig = ":sentry_ts_config",
+    deps = [
+        "@npm//@nestjs/common",
+        "@npm//@nestjs/core",
+        "@npm//@nestjs/platform-express",
+        "@npm//@sentry/hub",
+        "@npm//@sentry/node",
+        "@npm//@sentry/types",
+        "@npm//@types/node",
+        "@npm//kaop-ts",
+        "@npm//rxjs",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+ts_library(
+    name = "sentry_test_ts_library",
+    srcs = glob(["*spec.ts"]),
+    runtime = "nodejs",
+    deps = [
+        ":sentry_ts_library",
+        "@npm//@nestjs/testing",
+        "@npm//@sentry/node",
+        "@npm//@types/jest",
+    ],
+)
+
+jest_test(
+    name = "sentry_jest_test",
+    srcs = glob(["*spec.ts"]),
+    jest_config = "//:jest.config.json",
+    deps = [
+        ":sentry_test_ts_library",
+    ],
+)

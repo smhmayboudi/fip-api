@@ -1,0 +1,56 @@
+set_team("2c6dd58a-7684-426a-9369-7e19683b685a")
+# enable_feature("snapshots")
+# enable_feature("events")
+
+load("ext://namespace", "namespace_yaml")
+k8s_yaml(namespace_yaml("fip"))
+
+k8s_yaml(helm(
+  "k8s",
+  name = "fip",
+  namespace = "fip",
+))
+
+docker_build(
+  ref = "fip_rt",
+  context = "../../",
+  build_args = {"NODE_ENV":"development"},
+  dockerfile = "docker/development/Dockerfile",
+  live_update = [
+    sync("../../libs", "/app/libs"),
+    sync("./src", "/app/apps/rt/src"),
+  ]
+)
+
+load("ext://restart_process", "docker_build_with_restart")
+docker_build_with_restart(
+  ref = "fip_rt",
+  context = "../../",
+  build_args = {"NODE_ENV":"development"},
+  dockerfile = "docker/development/Dockerfile",
+  live_update = [
+    sync("../../jest.config.json", "/app/jest.config.json"),
+    sync("../../nest-cli.json", "/app/nest-cli.json"),
+    sync("../../package-lock.json", "/app/package-lock.json"),
+    sync("../../package.json", "/app/package.json"),
+    sync("../../tsconfig.json", "/app/tsconfig.json"),
+    sync("../../yarn.lock", "/app/yarn.lock"),
+    run("cd /app \
+        && yarn install",
+      trigger = [
+        "../../jest.config.json",
+        "../../nest-cli.json",
+        "../../package-lock.json",
+        "../../package.json",
+        "../../tsconfig.json",
+        "../../yarn.lock",
+      ]
+    ),
+  ],
+  entrypoint = [
+    "./node_modules/.bin/nest",
+    "start",
+    "rt",
+    "--watch",
+  ],
+)

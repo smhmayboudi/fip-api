@@ -1,0 +1,16 @@
+{
+  "references": [
+    {
+      "name": "RtValidateReqDto",
+      "subject": "fip.common.RtValidateReqDto",
+      "version": 1
+    },
+    {
+      "name": "RtResDto",
+      "subject": "fip.common.RtResDto",
+      "version": 1
+    }
+  ],
+  "schema":"{\"namespace\":\"fip.common\",\"name\":\"RtValidateDto\",\"type\":\"record\",\"fields\":[{\"name\":\"err\",\"type\":[\"null\",\"string\"],\"default\":null},{\"name\":\"req\",\"type\":[\"null\",\"RtValidateReqDto\"],\"default\":null},{\"name\":\"res\",\"type\":[\"null\",\"RtResDto\"],\"default\":null}]}",
+  "schemaType":"AVRO"
+}

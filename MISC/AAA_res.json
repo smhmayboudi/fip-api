@@ -1,0 +1,4 @@
+{
+  "schema":"syntax = \"proto3\"; message RtResDto {string createdAt = 1;string description = 2;string expireAt = 3;int32 id = 4;bool isBlocked = 5;string token = 6;int32 userId = 7;}",
+  "schemaType":"PROTOBUF"
+}

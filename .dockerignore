@@ -1,0 +1,17 @@
+*
+!apps
+!jest.config.json
+!libs
+!nest-cli.json
+!package.json
+!tsconfig.json
+!yarn.lock
+**/.devspace
+**/.gitlab-ci.yml
+**/BUILD.bazel
+**/Tiltfile
+**/Tiltfile.bazel
+**/devspace.yaml
+**/docker
+**/k8s
+**/tilt_modules

@@ -1,0 +1,12 @@
+{
+  "namespace": "fip.common",
+  "name": "AuthStrategyResDto",
+  "type": "record",
+  "fields": [
+    {
+      "name": "sub",
+      "doc": "example: 0",
+      "type": "string"
+    }
+  ]
+}

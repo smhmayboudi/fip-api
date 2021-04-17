@@ -1,0 +1,140 @@
+version: "3.8"
+services:
+  apm-server:
+    command: --strict.perms=false -e
+    depends_on:
+    - elasticsearch
+    environment:
+    - apm-server.host='0.0.0.0:8200'
+    - output.elasticsearch.hosts=['elasticsearch:9200']
+    image: docker.elastic.co/apm/apm-server:7.7.1
+    links:
+    - elasticsearch:elasticsearch
+    # ports:
+    # - 0.0.0.0:8200:8200
+    restart: always
+    user: apm-server
+    # volumes:
+    # - ../data/apm-server.docker.yml:/usr/share/apm-server/apm-server.yml
+  elasticsearch:
+    environment:
+    - discovery.type=single-node
+    image: bitnami/elasticsearch:7.7.1
+    # ports:
+    # - 127.0.0.1:9200:9200
+    # - 127.0.0.1:9300:9300
+    restart: always
+    volumes:
+    - ../data/elasticsearch:/usr/share/elasticsearch/data
+  kibana:
+    depends_on:
+    - elasticsearch
+    environment:
+    - STATUS_ALLOWANONYMOUS=true
+    image: bitnami/kibana:7.7.1
+    links:
+    - elasticsearch:elasticsearch
+    ports:
+    - 127.0.0.1:5601:5601
+    restart: always
+  mysql:
+    environment:
+    - MYSQL_ROOT_PASSWORD=testpassword
+    image: bitnami/mysql:5.7.25
+    # ports:
+    # - 127.0.0.1:3306:3306
+    restart: always
+    volumes:
+    - ../data/mysql:/var/lib/mysql
+  redis:
+    environment:
+    - ALLOW_EMPTY_PASSWORD=yes
+    image: bitnami/redis:6.0.5
+    # ports:
+    # - 127.0.0.1:6379:6379
+    restart: always
+  at:
+    build:
+      context: ../
+      dockerfile: apps/at/docker/Dockerfile
+    depends_on:
+    # - apm-server
+    - mysql
+    - redis
+    env_file:
+    - ../.env.docker-compose
+    image: melo_at:deployment
+    links:
+    # - apm-server:apm-server
+    - mysql:mysql
+    - redis:redis
+    restart: always
+  jwks:
+    build:
+      context: ../
+      dockerfile: apps/jwks/docker/Dockerfile
+    depends_on:
+    # - apm-server
+    - mysql
+    - redis
+    env_file:
+    - ../.env.docker-compose
+    image: melo_jwks:deployment
+    links:
+    # - apm-server:apm-server
+    - mysql:mysql
+    - redis:redis
+    restart: always
+  fip-api:
+    build:
+      context: ../
+      dockerfile: apps/melo-api/docker/Dockerfile
+    depends_on:
+    # - apm-server
+    - at
+    - jwks
+    - redis
+    - rt
+    - user
+    env_file:
+    - ../.env.docker-compose
+    image: melo_melo-api:deployment
+    links:
+    # - apm-server:apm-server
+    - redis:redis
+    ports:
+    - 127.0.0.1:3000:3000
+    - 127.0.0.1:9229:9229
+    restart: always
+  rt:
+    build:
+      context: ../
+      dockerfile: apps/rt/docker/Dockerfile
+    depends_on:
+    # - apm-server
+    - mysql
+    - redis
+    env_file:
+    - ../.env.docker-compose
+    image: melo_rt:deployment
+    links:
+    # - apm-server:apm-server
+    - mysql:mysql
+    - redis:redis
+    restart: always
+  user:
+    build:
+      context: ../
+      dockerfile: apps/user/docker/Dockerfile
+    depends_on:
+    # - apm-server
+    - mysql
+    - redis
+    env_file:
+    - ../.env.docker-compose
+    image: melo_user:deployment
+    links:
+    # - apm-server:apm-server
+    - mysql:mysql
+    - redis:redis
+    restart: always

@@ -1,0 +1,12 @@
+{
+  "namespace": "fip.common",
+  "name": "AuthAccessTokenResDto",
+  "type": "record",
+  "fields": [
+    {
+      "name": "at",
+      "doc": "example: 0",
+      "type": "string"
+    }
+  ]
+}

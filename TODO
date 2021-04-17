@@ -1,0 +1,81 @@
+این دوتا باید جدا بشه و تو کفکا یک سیستمی باشد که به خودش برگردونه
+user_id
+created_at
+
+SuccessResDto
+FailureResDto
+
+
+
+fromCategory("account")
+  .foreachStream()
+  .when({
+    $init: function () {
+      return {
+        balance: 0,
+      };
+    },
+    Deposited: function (state, event) {
+      state.balance += event.data.amount;
+    },
+    Withdrew: function (state, event) {
+      state.balance -= event.data.amount;
+    },
+  });
+
+
+
+node --prof ./dist/app/fip-api/main.js
+
+ab -k -c 20 -n 250 \                                                                     
+  -p /dev/null \
+  -H 'token: wostf2DR5iNFzbK1OYzPrpw6YC1PAPWQ9g9np6JMFbcnDrx71KGuOldwC0qn1fhoZjQ+LoG1ms7Dx6WaMrH0wXqDosE5/La3pJOUiTsV+0eADW/jtQImVH5wGcUJk1RmpNyUl0fLfnGCPeihU/uC2BZVSzNXVb8Gj22gB5cnbLl3or5Jqqzle5xiXuBsR/9fmilDTjRTbVWFyuIi+2KqBSP4Xcd0zWVMAcW0NjK9EncjRaeyz0WV3jKtQFXhitLv' \
+  --url http://127.0.0.1:3000/auth/token
+
+node --prof-process isolate-0xnnnnnnnnnnnn-v8.log > processed-0xnnnnnnnnnnnn-v8.txt
+
+txt => [Summary]: ..., [C++]: ...
+
+
+
+const errorTypes = ['unhandledRejection', 'uncaughtException']
+const signalTraps = ['SIGTERM', 'SIGINT', 'SIGUSR2']
+
+errorTypes.map(type => {
+  process.on(type, async () => {
+    try {
+      console.log(`process.on ${type}`)
+      await producer.disconnect()
+      process.exit(0)
+    } catch (_) {
+      process.exit(1)
+    }
+  })
+})
+
+signalTraps.map(type => {
+  process.once(type, async () => {
+    try {
+      await producer.disconnect()
+    } finally {
+      process.kill(process.pid, type)
+    }
+  })
+})
+
+
+
+I  intend to use this Twitter feed to get real time data streams in to an application that will put data into Kafka. This data will end up in ElasticSearch at the end and this is just for POC purpose. No commercial application will result out of this and I won't have any users besides just myself.
+Twitter data will not displayed, and we will only extract tweets on low volume term.
+
+API key
+z02eBi1nmC8qBlm1VljAbOKYq
+
+API secret key
+lIpcIBFhOoMQG20gOuKv8q2dDrzIVoPJwIsYjgXD5dsurbOLFD
+
+Access token
+123681993-d9YHowArMLlFWxoViwO6LNYXR9M0oRKD4O7fE87V
+
+Access token secret
+ecPWnZCn6LeD2VNP8PPCJJPyZ872rVxpiXt63DSdc9oVV

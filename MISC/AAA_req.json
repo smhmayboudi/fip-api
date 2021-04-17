@@ -1,0 +1,4 @@
+{
+  "schema":"syntax = \"proto3\"; message RtValidateReqDto {int32 sub = 1;}",
+  "schemaType":"PROTOBUF"
+}

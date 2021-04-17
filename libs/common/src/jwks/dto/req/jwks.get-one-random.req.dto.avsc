@@ -1,0 +1,9 @@
+{
+  "namespace": "fip.common",
+  "name": "JwksGetOneRandomReqDto",
+  "type": "record",
+  "doc": [
+    {}
+  ],
+  "fields": []
+}

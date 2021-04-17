@@ -1,0 +1,33 @@
+# BEGIN project-specific configuration
+
+.eventstore: &eventstore
+  variables:
+    MODULE_NAME: "eventstore"
+  only:
+    changes:
+    - "libs/eventstore/**/*"
+
+# END project-specific configuration
+
+# BEGIN actual pipeline definition
+
+build:libs:eventstore:
+  extends:
+  - ".build"
+  - ".eventstore"
+
+test:libs:eventstore:
+  dependencies:
+  - "build:libs:eventstore"
+  extends:
+  - ".test"
+  - ".eventstore"
+
+coverage:libs:eventstore:
+  dependencies:
+  - "test:libs:eventstore"
+  extends:
+  - ".coverage"
+  - ".eventstore"
+
+# END actual pipeline definition

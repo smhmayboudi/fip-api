@@ -1,0 +1,42 @@
+{
+  "namespace": "fip.common",
+  "name": "RtSaveReqDto",
+  "type": "record",
+  "fields": [
+    {
+      "name": "createdAt",
+      "doc": "example: 0",
+      "type": "long"
+    },
+    {
+      "name": "description",
+      "doc": "example: 0",
+      "type": "string"
+    },
+    {
+      "name": "expireAt",
+      "doc": "example: 0",
+      "type": "long"
+    },
+    {
+      "name": "id",
+      "doc": "example: 0",
+      "type": "long"
+    },
+    {
+      "name": "isBlocked",
+      "doc": "example: false",
+      "type": "boolean"
+    },
+    {
+      "name": "token",
+      "doc": "example: 00000000-0000-0000-0000-000000000000",
+      "type": "string"
+    },
+    {
+      "name": "userId",
+      "doc": "example: 0",
+      "type": "long"
+    }
+  ]
+}

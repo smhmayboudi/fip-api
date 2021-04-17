@@ -1,0 +1,12 @@
+{
+  "namespace": "fip.common",
+  "name": "AtValidateReqDto",
+  "type": "record",
+  "fields": [
+    {
+      "name": "userId",
+      "doc": "example: 0",
+      "type": "long"
+    }
+  ]
+}

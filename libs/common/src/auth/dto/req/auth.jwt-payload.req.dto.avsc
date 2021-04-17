@@ -1,0 +1,27 @@
+{
+  "namespace": "fip.common",
+  "name": "AuthJwtPayloadReqDto",
+  "type": "record",
+  "fields": [
+    {
+      "name": "exp",
+      "doc": "example: 0",
+      "type": "long"
+    },
+    {
+      "name": "iat",
+      "doc": "example: 0",
+      "type": "long"
+    },
+    {
+      "name": "jti",
+      "doc": "example: 0",
+      "type": "string"
+    },
+    {
+      "name": "sub",
+      "doc": "example: 0",
+      "type": "string"
+    }
+  ]
+}

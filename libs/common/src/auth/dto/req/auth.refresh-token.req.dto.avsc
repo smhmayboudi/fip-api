@@ -1,0 +1,39 @@
+{
+  "namespace": "fip.common",
+  "name": "AuthRefreshTokenReqDto",
+  "type": "record",
+  "fields": [
+    {
+      "name": "sub",
+      "doc": "example: 0",
+      "type": "long"
+    },
+    {
+      "name": "token",
+      "doc": "example: 00000000-0000-0000-0000-000000000000",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null
+    },
+    {
+      "name": "now",
+      "doc": "example: 0",
+      "type": [
+        "null",
+        "long"
+      ],
+      "default": null
+    },
+    {
+      "name": "rt",
+      "doc": "example: 0",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null
+    }
+  ]
+}

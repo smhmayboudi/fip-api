@@ -1,0 +1,16 @@
+set_team("2c6dd58a-7684-426a-9369-7e19683b685a")
+# enable_feature("snapshots")
+# enable_feature("events")
+
+load("ext://namespace", "namespace_yaml")
+k8s_yaml(namespace_yaml("fip"))
+
+k8s_yaml(helm(
+  "k8s",
+  name = "fip",
+  namespace = "fip",
+))
+
+load("../common/bazel/tilt/index.bzl", "bazel_build")
+bazel_build("fip_user", "src:user_container_push")
+

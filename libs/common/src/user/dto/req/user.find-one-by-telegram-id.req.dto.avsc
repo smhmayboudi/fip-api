@@ -1,0 +1,12 @@
+{
+  "namespace": "fip.common",
+  "name": "UserFindOneByTelegramIdReqDto",
+  "type": "record",
+  "fields": [
+    {
+      "name": "telegramId",
+      "doc": "example: 0",
+      "type": "long"
+    }
+  ]
+}

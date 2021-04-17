@@ -1,0 +1,17 @@
+{
+  "namespace": "fip.common",
+  "name": "RtBlockByTokenReqDto",
+  "type": "record",
+  "fields": [
+    {
+      "name": "description",
+      "doc": "example: 0",
+      "type": "string"
+    },
+    {
+      "name": "token",
+      "doc": "example: 00000000-0000-0000-0000-000000000000",
+      "type": "string"
+    }
+  ]
+}

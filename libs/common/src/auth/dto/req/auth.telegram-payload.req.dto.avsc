@@ -1,0 +1,42 @@
+{
+  "namespace": "fip.common",
+  "name": "AuthTelegramPayloadReqDto",
+  "type": "record",
+  "fields": [
+    {
+      "name": "authAt",
+      "doc": "example: 0",
+      "type": "long"
+    },
+    {
+      "name": "firstName",
+      "doc": "example: Hossein",
+      "type": "string"
+    },
+    {
+      "name": "hash",
+      "doc": "example: 0x00",
+      "type": "string"
+    },
+    {
+      "name": "id",
+      "doc": "example: 0",
+      "type": "long"
+    },
+    {
+      "name": "lastName",
+      "doc": "example: Mayboudi",
+      "type": "string"
+    },
+    {
+      "name": "photoUrl",
+      "doc": "example: http://...",
+      "type": "string"
+    },
+    {
+      "name": "username",
+      "doc": "example: smhmayboudi",
+      "type": "string"
+    }
+  ]
+}

@@ -1,0 +1,120 @@
+{
+  "namespace": "fip.common",
+  "name": "UserResDto",
+  "type": "record",
+  "fields": [
+    {
+      "name": "id",
+      "doc": "example: 0",
+      "type": "long"
+    },
+    {
+      "name": "avatar",
+      "doc": "example: 0",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null
+    },
+    {
+      "name": "biography",
+      "doc": "example: 0",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null
+    },
+    {
+      "name": "birthdate",
+      "doc": "example: 0",
+      "type": [
+        "null",
+        "long"
+      ],
+      "default": null
+    },
+    {
+      "name": "cellphone",
+      "doc": "example: 0",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null
+    },
+    {
+      "name": "email",
+      "doc": "example: smhmayboudi@gmail.com",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null
+    },
+    {
+      "name": "firstname",
+      "doc": "example: Hossein",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null
+    },
+    {
+      "name": "gender",
+      "doc": "example: Male",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null
+    },
+    {
+      "name": "languageCode",
+      "doc": "example: en",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null
+    },
+    {
+      "name": "lastname",
+      "doc": "example: Mayboudi",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null
+    },
+    {
+      "name": "registeredAt",
+      "doc": "example: 0",
+      "type": [
+        "null",
+        "long"
+      ],
+      "default": null
+    },
+    {
+      "name": "telegramId",
+      "doc": "example: 0",
+      "type": [
+        "null",
+        "long"
+      ],
+      "default": null
+    },
+    {
+      "name": "username",
+      "doc": "example: smhmayboudi",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null
+    }
+  ]
+}

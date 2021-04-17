@@ -1,0 +1,16 @@
+{
+  "references": [
+    {
+      "name": "rt.validate.req.dto.proto",
+      "subject": "rt.validate.req.dto.proto",
+      "version": 1
+    },
+    {
+      "name": "rt.res.dto.proto",
+      "subject": "rt.res.dto.proto",
+      "version": 1
+    }
+  ],
+  "schema":"syntax = \"proto3\"; import \"rt.validate.req.dto.proto\"; import \"rt.res.dto.proto\"; message RtValidateDto {string err = 1;RtValidateReqDto req = 2;RtResDto res = 3;}",
+  "schemaType":"PROTOBUF"
+}

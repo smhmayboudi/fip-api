@@ -1,0 +1,17 @@
+{
+  "namespace": "fip.common",
+  "name": "AuthRefreshTokenResDto",
+  "type": "record",
+  "fields": [
+    {
+      "name": "at",
+      "doc": "example: 0",
+      "type": "string"
+    },
+    {
+      "name": "rt",
+      "doc": "example: 0",
+      "type": "string"
+    }
+  ]
+}

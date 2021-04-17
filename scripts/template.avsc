@@ -1,0 +1,31 @@
+{
+  "namespace": "fip.common",
+  "name": "NAME",
+  "type": "record",
+  "fields": [
+    {
+      "name": "err",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null
+    },
+    {
+      "name": "req",
+      "type": [
+        "null",
+        "REQ"
+      ],
+      "default": null
+    },
+    {
+      "name": "res",
+      "type": [
+        "null",
+        "RES"
+      ],
+      "default": null
+    }
+  ]
+}

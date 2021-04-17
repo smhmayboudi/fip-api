@@ -1,0 +1,37 @@
+{
+  "namespace": "fip.common",
+  "name": "AtUpdateReqDto",
+  "type": "record",
+  "fields": [
+    {
+      "name": "count",
+      "doc": "example: 0",
+      "type": "long"
+    },
+    {
+      "name": "createdAt",
+      "doc": "example: 0",
+      "type": "long"
+    },
+    {
+      "name": "expireAt",
+      "doc": "example: 0",
+      "type": "long"
+    },
+    {
+      "name": "id",
+      "doc": "example: 0",
+      "type": "long"
+    },
+    {
+      "name": "token",
+      "doc": "example: 00000000-0000-0000-0000-000000000000",
+      "type": "string"
+    },
+    {
+      "name": "userId",
+      "doc": "example: 0",
+      "type": "long"
+    }
+  ]
+}

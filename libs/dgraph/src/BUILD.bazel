@@ -1,0 +1,55 @@
+load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_binary")
+load("@io_bazel_rules_docker//nodejs:image.bzl", "nodejs_image")
+load("@fip//:apps/common/bazel/jest/index.bzl", "jest_test")
+load("@npm//@bazel/typescript:index.bzl", "ts_config", "ts_library")
+
+package(default_visibility = ["//visibility:private"])
+
+ts_config(
+    name = "dgraph_ts_config",
+    src = "//libs/dgraph:tsconfig.lib.json",
+    deps = [
+        "//:tsconfig.json",
+    ],
+)
+
+ts_library(
+    name = "dgraph_ts_library",
+    srcs = glob(
+        include = ["*.ts"],
+        exclude = ["*spec.ts"],
+    ),
+    module_name = "@fip/dgraph",
+    runtime = "nodejs",
+    tsconfig = ":dgraph_ts_config",
+    deps = [
+        "@npm//@nestjs/common",
+        "@npm//@nestjs/core",
+        "@npm//@nestjs/platform-express",
+        "@npm//@types/node",
+        "@npm//dgraph-js",
+        "@npm//grpc",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+ts_library(
+    name = "dgraph_test_ts_library",
+    srcs = glob(["*spec.ts"]),
+    runtime = "nodejs",
+    deps = [
+        ":dgraph_ts_library",
+        "@npm//@nestjs/testing",
+        "@npm//@types/jest",
+        "@npm//dgraph-js",
+    ],
+)
+
+jest_test(
+    name = "dgraph_jest_test",
+    srcs = glob(["*spec.ts"]),
+    jest_config = "//:jest.config.json",
+    deps = [
+        ":dgraph_test_ts_library",
+    ],
+)

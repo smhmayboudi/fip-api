@@ -1,0 +1,17 @@
+{
+  "namespace": "fip.common",
+  "name": "RtBlockReqDto",
+  "type": "record",
+  "fields": [
+    {
+      "name": "description",
+      "doc": "example: 0",
+      "type": "string"
+    },
+    {
+      "name": "id",
+      "doc": "example: 0",
+      "type": "long"
+    }
+  ]
+}

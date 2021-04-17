@@ -1,0 +1,16 @@
+{
+    "recommendations": [
+      "amatiasq.sort-imports",
+      "coenraads.bracket-pair-colorizer-2",
+      "dbaeumer.vscode-eslint",
+      "eamodio.gitlens",
+      "esbenp.prettier-vscode",
+      "ibm.output-colorizer",
+      "ms-azuretools.vscode-docker",
+      "pkief.material-icon-theme",
+      "ryanluker.vscode-coverage-gutters",
+      "streetsidesoftware.code-spell-checker",
+      "tyriar.sort-lines"
+    ]
+  }
+  

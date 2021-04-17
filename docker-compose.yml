@@ -1,0 +1,209 @@
+# Local Kafka development environment setup
+# ref: https://github.com/simplesteph/kafka-stack-docker-compose/blob/master/full-stack.yml
+version: "3.8"
+
+services:
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.9.3
+    restart: always
+
+  apm-server:
+    command: --strict.perms=false -e
+    depends_on:
+    - elasticsearch
+    environment:
+    - apm-server.host='0.0.0.0:8200'
+    - output.elasticsearch.hosts=['elasticsearch:9200']
+    image: docker.elastic.co/apm/apm-server:7.7.1
+    links:
+    - elasticsearch:elasticsearch
+    ports:
+    - 0.0.0.0:8200:8200
+    restart: always
+    user: apm-server
+    # name: apm-server
+    # volumes:
+    # - ./data/apm-server.docker.yml:/usr/share/apm-server/apm-server.yml:ro
+
+  elasticsearch:
+    environment:
+    - discovery.type=single-node
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.9.3
+    ports:
+    - 0.0.0.0:9200:9200
+    - 0.0.0.0:9300:9300
+    restart: always
+    volumes:
+    - ./data/elasticsearch:/usr/share/elasticsearch/data
+
+  kibana:
+    depends_on:
+    - elasticsearch
+    # environment:
+    # - STATUS_ALLOWANONYMOUS=true
+    # - ELASTICSEARCH_URL=https://elasticsearch:9200
+    # - ELASTICSEARCH_HOSTS=https://elasticsearch:9200
+    image: docker.elastic.co/kibana/kibana:7.9.3
+    links:
+    - elasticsearch:elasticsearch
+    ports:
+    - 0.0.0.0:5601:5601
+    restart: always
+
+  lenses:
+    image: lensesio/lenses:4.0
+    environment:
+      LENSES_PORT: 9991
+      LENSES_KAFKA_BROKERS: "PLAINTEXT://broker.1.url:9092,PLAINTEXT://broker.2.url:9092"
+      LENSES_ZOOKEEPER_HOSTS: |
+        [
+          {url:"zookeeper.1.url:2181", jmx:"zookeeper.1.url:9585"},
+          {url:"zookeeper.2.url:2181", jmx:"zookeeper.2.url:9585"}
+        ]
+      LENSES_SCHEMA_REGISTRY_URLS: |
+        [
+          {url:"http://schema.registry.1.url:8081",jmx:"schema.registry.1.url:9582"},
+          {url:"http://schema.registry.2.url:8081",jmx:"schema.registry.2.url:9582"}
+        ]
+      LENSES_CONNECT_CLUSTERS: |
+        [
+          {
+            name:"data_science",
+            urls: [
+              {url:"http://connect.worker.1.url:8083",jmx:"connect.worker.1.url:9584"},
+              {url:"http://connect.worker.2.url:8083",jmx:"connect.worker.2.url:9584"}
+            ],
+            statuses:"connect-statuses-cluster-a",
+            configs:"connect-configs-cluster-a",
+            offsets:"connect-offsets-cluster-a"
+          }
+        ]
+      LENSES_SECURITY_USER: admin
+      LENSES_SECURITY_PASSWORD: sha256:8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918
+    ports:
+      - 9991:9991
+      - 9102:9102
+    volumes:
+      - ./license.json:/license.json
+    network_mode: host
+
+
+  kafdrop:
+    image: obsidiandynamics/kafdrop:3.27.0
+    ports:
+      - 9000:9000
+    environment:
+      - KAFKA_BROKERCONNECT=broker:9092
+      # - JVM_OPTS=-Xms16M -Xmx48M -Xss180K -XX:-TieredCompilation -XX:+UseStringDeduplication -noverify
+      # - SERVER_SERVLET_CONTEXTPAT=/
+
+  mysql:
+    environment:
+    - MYSQL_ROOT_PASSWORD=testpassword
+    image: mysql:5.7.25
+    ports:
+    - 3306:3306
+    restart: always
+    volumes:
+    - ./data/mysql:/var/lib/mysql
+
+  redis:
+    environment:
+    - ALLOW_EMPTY_PASSWORD=yes
+    image: redis:6.0.5
+    ports:
+    - 6379:6379
+    restart: always
+
+  eventstore:
+    image: eventstore/eventstore:20.6.1-bionic
+    ports:
+      - 1113:1113
+      - 2113:2113
+    environment:
+      - EVENTSTORE_DEV=true
+      - EVENTSTORE_INSECURE=true
+      - EVENTSTORE_RUN_PROJECTIONS=All
+      - EVENTSTORE_START_STANDARD_PROJECTIONS=true
+
+  magic:
+    image: "digitsy/kafka-magic:2.0.3.4"
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/config
+    environment:
+      KMAGIC_ALLOW_TOPIC_DELETE: "true"
+      KMAGIC_CONFIG_STORE_TYPE: "file"
+      KMAGIC_CONFIG_STORE_CONNECTION: "Data Source=/config/KafkaMagicConfig.db;"
+      KMAGIC_CONFIG_ENCRYPTION_KEY: "ENTER_YOUR_KEY_HERE"
+
+# docker run --name esdb-node -it -p 2113:2113 -p 1113:1113 eventstore/eventstore:latest --insecure --run-projections=All
+
+  zoo1:
+    image: zookeeper:3.4.9
+    restart: unless-stopped
+    hostname: zoo1
+    ports:
+      - "2181:2181"
+    environment:
+        ZOO_MY_ID: 1
+        ZOO_PORT: 2181
+        ZOO_SERVERS: server.1=zoo1:2888:3888
+    volumes:
+      - ./full-stack/zoo1/data:/data
+      - ./full-stack/zoo1/datalog:/datalog
+
+  kafka1:
+    image: confluentinc/cp-kafka:5.2.1
+    hostname: kafka1
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_ADVERTISED_LISTENERS: LISTENER_DOCKER_INTERNAL://kafka1:19092,LISTENER_DOCKER_EXTERNAL://${DOCKER_HOST_IP:-127.0.0.1}:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: LISTENER_DOCKER_INTERNAL:PLAINTEXT,LISTENER_DOCKER_EXTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: LISTENER_DOCKER_INTERNAL
+      KAFKA_ZOOKEEPER_CONNECT: "zoo1:2181"
+      KAFKA_BROKER_ID: 1
+      KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    volumes:
+      - ./full-stack/kafka1/data:/var/lib/kafka/data
+    depends_on:
+      - zoo1
+
+  zookeeper2:
+    image: bitnami/zookeeper:3-debian-10
+    ports:
+      - 2181:2181
+    volumes:
+      - zookeeper_data:/bitnami
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+
+  kafka2:
+    image: bitnami/kafka:2-debian-10
+    ports:
+      - 9092:9092
+    volumes:
+      - kafka_data:/bitnami
+    environment:
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+    depends_on:
+      - zookeeper2
+
+  kafdrop2:
+    image: obsidiandynamics/kafdrop
+    ports:
+      - 9100:9000
+    environment:
+      - KAFKA_BROKERCONNECT=kafka:9092
+      - JVM_OPTS=-Xms32M -Xmx64M
+    depends_on:
+      - kafka2
+
+volumes:
+  zookeeper_data:
+  kafka_data:

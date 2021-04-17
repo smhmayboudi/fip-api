@@ -1,0 +1,22 @@
+{
+  "namespace": "fip.common",
+  "name": "JwksResDto",
+  "type": "record",
+  "fields": [
+    {
+      "name": "id",
+      "doc": "example: 00000000-0000-0000-0000-000000000000",
+      "type": "string"
+    },
+    {
+      "name": "privateKey",
+      "doc": "example: 0",
+      "type": "string"
+    },
+    {
+      "name": "publicKey",
+      "doc": "example: 0",
+      "type": "string"
+    }
+  ]
+}

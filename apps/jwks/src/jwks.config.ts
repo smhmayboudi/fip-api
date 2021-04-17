@@ -1,0 +1,16 @@
+import { JWKS } from "@fip/common";
+import { registerAs } from "@nestjs/config";
+
+export default registerAs(JWKS, () => ({
+  SERVICE_PORT: process.env.JWKS_SERVICE_PORT,
+  SERVICE_RETRY_ATTEMPTS: process.env.JWKS_SERVICE_RETRY_ATTEMPTS,
+  SERVICE_RETRY_DELAY: process.env.JWKS_SERVICE_RETRY_DELAY,
+  SERVICE_URL: process.env.JWKS_SERVICE_URL,
+  TYPEORM_DATABASE: process.env.JWKS_TYPEORM_DATABASE,
+  TYPEORM_HOST: process.env.JWKS_TYPEORM_HOST,
+  TYPEORM_LOGGING: process.env.JWKS_TYPEORM_LOGGING,
+  TYPEORM_PASSWORD: process.env.JWKS_TYPEORM_PASSWORD,
+  TYPEORM_PORT: process.env.JWKS_TYPEORM_PORT,
+  TYPEORM_SYNCHRONIZE: process.env.JWKS_TYPEORM_SYNCHRONIZE,
+  TYPEORM_USERNAME: process.env.JWKS_TYPEORM_USERNAME,
+}));

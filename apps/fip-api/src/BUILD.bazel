@@ -1,0 +1,135 @@
+load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_binary")
+load("@io_bazel_rules_docker//container:container.bzl", "container_push")
+load("@io_bazel_rules_docker//nodejs:image.bzl", "nodejs_image")
+load("@fip//:apps/common/bazel/jest/index.bzl", "jest_test")
+load("@npm//@bazel/typescript:index.bzl", "ts_config", "ts_library")
+
+package(default_visibility = ["//visibility:private"])
+
+ts_config(
+    name = "fip-api_ts_config",
+    src = "//apps/fip-api:tsconfig.app.json",
+    deps = [
+        "//:tsconfig.json",
+    ],
+)
+
+ts_library(
+    name = "fip-api_ts_library",
+    srcs = glob(
+        include = ["**/*.ts"],
+        exclude = ["**/*spec.ts"],
+    ),
+    runtime = "nodejs",
+    tsconfig = ":fip-api_ts_config",
+    deps = [
+        "//libs/apm/src:apm_ts_library",
+        "//libs/common/src:common_ts_library",
+        "//libs/prom/src:prom_ts_library",
+        "//libs/sentry/src:sentry_ts_library",
+        "@npm//@nestjs/common",
+        "@npm//@nestjs/config",
+        "@npm//@nestjs/core",
+        "@npm//@nestjs/jwt",
+        "@npm//@nestjs/microservices",
+        "@npm//@nestjs/passport",
+        "@npm//@nestjs/platform-express",
+        "@npm//@nestjs/platform-socket.io",
+        "@npm//@nestjs/swagger",
+        "@npm//@nestjs/terminus",
+        "@npm//@nestjs/typeorm",
+        "@npm//@nestjs/websockets",
+        "@npm//@sentry/types",
+        "@npm//@types/body-parser",
+        "@npm//@types/cache-manager",
+        "@npm//@types/cookie-parser",
+        "@npm//@types/cors",
+        "@npm//@types/csurf",
+        "@npm//@types/express",
+        "@npm//@types/express-rate-limit",
+        "@npm//@types/express-serve-static-core",
+        "@npm//@types/hashids",
+        "@npm//@types/helmet",
+        "@npm//@types/ms",
+        "@npm//@types/multer",
+        "@npm//@types/node",
+        "@npm//@types/passport-jwt",
+        "@npm//@types/passport-local",
+        "@npm//@types/passport-strategy",
+        "@npm//@types/passport-unique-token",
+        "@npm//@types/socket.io",
+        "@npm//@types/uuid",
+        "@npm//body-parser",
+        "@npm//cache-manager",
+        "@npm//cache-manager-ioredis",
+        "@npm//cookie-parser",
+        "@npm//cors",
+        "@npm//crypto-random-string",
+        "@npm//csurf",
+        "@npm//express",
+        "@npm//express-rate-limit",
+        "@npm//hashids",
+        "@npm//helmet",
+        "@npm//ms",
+        "@npm//multer",
+        "@npm//passport",
+        "@npm//passport-jwt",
+        "@npm//passport-local",
+        "@npm//passport-telegram-official",
+        "@npm//passport-unique-token",
+        "@npm//redis",
+        "@npm//rxjs",
+        "@npm//swagger-ui-express",
+        "@npm//source-map-support",
+        "@npm//typeorm",
+        "@npm//uuid",
+    ],
+)
+
+nodejs_binary(
+    name = "fip-api_nodejs_binary",
+    data = [
+        ":fip-api_ts_library",
+    ],
+    entry_point = ":main.ts",
+    templated_args = [
+        "--nobazel_run_linker",
+        "--node_options=--require=source-map-support/register",
+    ],
+)
+
+nodejs_image(
+    name = "fip-api_nodejs_image",
+    binary = ":fip-api_nodejs_binary",
+)
+
+container_push(
+    name = "fip-api_container_push",
+    format = "Docker",
+    image = ":fip-api_nodejs_image",
+    registry = "localhost:5000",
+    repository = "fip_fip-api",
+    tag = "{COMMIT_SHA}",
+)
+
+ts_library(
+    name = "fip-api_test_ts_library",
+    srcs = glob(["*spec.ts"]),
+    runtime = "nodejs",
+    deps = [
+        ":fip-api_ts_library",
+        "//libs/common/src:common_ts_library",
+        "@npm//@nestjs/config",
+        "@npm//@nestjs/testing",
+        "@npm//@types/jest",
+    ],
+)
+
+jest_test(
+    name = "fip-api_jest_test",
+    srcs = glob(["*spec.ts"]),
+    jest_config = "//:jest.config.json",
+    deps = [
+        ":fip-api_test_ts_library",
+    ],
+)

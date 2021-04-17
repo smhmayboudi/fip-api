@@ -1,0 +1,76 @@
+{
+  "env": {
+    "es2017": true,
+    "jest": true,
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:import/recommended",
+    "plugin:import/typescript",
+    "plugin:jest/all",
+    "plugin:prettier/recommended",
+    "prettier",
+    "prettier/@typescript-eslint"
+  ],
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "globalReturn": true,
+      "impliedStrict": true,
+      "jsx": false
+    },
+    "ecmaVersion": 2017,
+    "project": "tsconfig.json",
+    "sourceType": "module"
+  },
+  "plugins": [
+    "@typescript-eslint",
+    "sort-class-members"
+  ],
+  "root": true,
+  "rules": {
+    "@typescript-eslint/ban-types": "off",
+    "@typescript-eslint/no-unsafe-assignment": "off",
+    "@typescript-eslint/no-unsafe-call": "off",
+    "@typescript-eslint/no-unsafe-member-access": "off",
+    "@typescript-eslint/no-unsafe-return": "off",
+    "@typescript-eslint/restrict-template-expressions": "off",
+    "jest/lowercase-name": ["error", {"ignore": ["describe"]}],
+    "jest/no-hooks": "off",
+    "sort-class-members/sort-class-members": [2, {
+      "order": [
+        "[static-properties]",
+        "[static-methods]",
+        "[properties]",
+        "[accessor-pairs]",
+        "[getters]",
+        "[setters]",
+        "[conventional-private-properties]",
+        "constructor",
+        "[arrow-function-properties]",
+        "[methods]",
+        "[async-methods]",
+        "[conventional-private-methods]",
+        "[everything-else]"
+      ]
+    }],
+    "sort-imports": "error",
+    "sort-keys": "error",
+    "sort-vars": "error"
+  },
+  "settings": {
+    "import/resolver": {
+      "typescript": {
+        "project": ["apps/*/tsconfig.app.json", "libs/*/tsconfig.lib.json"]
+      }
+    }
+  }
+}

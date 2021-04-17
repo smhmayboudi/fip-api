@@ -1,0 +1,12 @@
+{
+  "namespace": "fip.common",
+  "name": "UserFindOneByUsernameReqDto",
+  "type": "record",
+  "fields": [
+    {
+      "name": "username",
+      "doc": "example: smhmayboudi",
+      "type": "string"
+    }
+  ]
+}

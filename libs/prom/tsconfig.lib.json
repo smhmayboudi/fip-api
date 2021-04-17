@@ -1,0 +1,8 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../dist/libs/prom"
+  },
+  "exclude": ["node_modules", "dist", "test", "**/*spec.ts"],
+  "include": ["src/**/*.ts"]
+}

@@ -1,0 +1,4 @@
+{
+  "schema":"{\"type\":\"record\",\"name\":\"AAA\",\"fields\":[{\"name\":\"message\",\"type\":\"string\"}]}",
+  "schemaType":"AVRO"
+}
